@@ -38,7 +38,7 @@ export default async function handler(
 
   if (_user)
     return res.status(400).json({
-      message: `username: ${username} already is use`,
+      message: `Username: ${username} already is use`,
     });
 
   const _password = await hashPassword(password);
@@ -51,6 +51,6 @@ export default async function handler(
   });
 
   res.status(200).json({
-    message: "user created",
+    message: "User created",
   });
 }

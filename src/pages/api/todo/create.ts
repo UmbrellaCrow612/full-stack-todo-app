@@ -34,7 +34,7 @@ export default async function handler(
 
   if (!_user)
     return res.status(400).json({
-      message: "could not find user",
+      message: "Could not find user",
       userId: `This is what we got ${userId}`,
     });
 
@@ -46,7 +46,7 @@ export default async function handler(
   });
 
   res.status(200).json({
-    message: "todo crated successfully",
+    message: "Todo crated successfully",
     todo: todo,
   });
 }
