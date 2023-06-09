@@ -12,7 +12,7 @@ export default async function handler(
 
   if (method !== "POST")
     return res.status(400).json({
-      message: `Method ${method} not allowed`,
+      message: `Method ${method} not allowed use POST`,
     });
 
   if (!username || !password)
