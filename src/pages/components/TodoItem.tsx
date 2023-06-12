@@ -22,7 +22,10 @@ export default function TodoItem({ text, id }: { text: string; id: string }) {
             <button
               className="px-4 py-2 font-bold text-white transition-all ease-in-out bg-red-500 rounded hover:bg-red-700"
               type="button"
-              onClick={() => setEditMode(!editMode)}
+              onClick={() => {
+                setEditMode(!editMode);
+                setEditText(text);
+              }}
             >
               <XSvg />
             </button>
