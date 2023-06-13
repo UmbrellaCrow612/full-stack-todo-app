@@ -1,11 +1,54 @@
 import { useState } from "react";
+import axios, { AxiosResponse } from "axios";
+
+interface Todo {
+  content: string;
+  userId: string;
+}
+
+async function createTodo(todoData: Todo): Promise<AxiosResponse<Todo>> {
+  try {
+    const response = await axios.post<Todo>("/api/todo/create", todoData);
+    return response;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Failed to create todo");
+  }
+}
 
 export default function TodoInput() {
   const [text, setText] = useState("");
-  // Todo: Add react query for sending post request and showing loading states
+  const [error, setError] = useState("");
+
+  const handleAddTodo = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!text.trim()) {
+      setError("Todo content cannot be empty");
+      return;
+    }
+
+    const todoData: Todo = {
+      content: text,
+      userId: "f7bc31c5-f600-4d8a-813a-d47400db7ea6",
+    };
+
+    try {
+      await createTodo(todoData);
+      setText(""); // Clear the input field
+      setError(""); // Clear the error message
+    } catch (error: any) {
+      console.error(error);
+      setError(error.message);
+    }
+  };
+
   return (
     <>
-      <form className="flex justify-between w-full gap-4">
+      {error && <div className="text-red-500">{error}</div>}
+      <form
+        className="flex justify-between w-full gap-4"
+        onSubmit={handleAddTodo}
+      >
         <input
           className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none outline-offset-4 outline-gray-500"
           type="text"
@@ -14,7 +57,10 @@ export default function TodoInput() {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button className="px-4 py-2 font-bold text-white transition-all ease-in-out bg-blue-500 rounded hover:bg-blue-700 outline-offset-4 outline-gray-500">
+        <button
+          className="px-4 py-2 font-bold text-white transition-all ease-in-out bg-blue-500 rounded hover:bg-blue-700 outline-offset-4 outline-gray-500"
+          type="submit"
+        >
           Add
         </button>
       </form>
