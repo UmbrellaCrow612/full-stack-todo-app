@@ -13,20 +13,34 @@ export default function TodoItem({
   const [editMode, setEditMode] = useState(false);
   const [editText, setEditText] = useState(text);
 
-   const deleteTodo = async () => {
-     try {
-       await axios.delete(`/api/todo/delete/${id}`);
-       mutate(); // Refresh the todo list after deletion
-     } catch (error) {
-       console.log(error);
-     }
-   };
+  const deleteTodo = async () => {
+    try {
+      await axios.delete(`/api/todo/delete/${id}`);
+      mutate(); // Refresh the todo list after deletion
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+ const updateTodo = async (e: React.FormEvent) => {
+   e.preventDefault(); // Prevent form submission and page refresh
+   try {
+     await axios.put(`/api/todo/update`, {
+       id,
+       content: editText,
+     });
+     setEditMode(false);
+     mutate(); // Refresh the todo list after update
+   } catch (error) {
+     console.log(error);
+   }
+ };
 
 
   return (
     <>
       {editMode ? (
-        <form className="relative">
+        <form className="relative" onSubmit={updateTodo}>
           <input
             placeholder="Edit the todo"
             type="text"
@@ -36,7 +50,10 @@ export default function TodoItem({
             required
           />
           <div className="absolute flex items-center gap-3 right-1 top-2">
-            <button className="px-4 py-2 font-bold text-white transition-all ease-in-out bg-green-500 rounded hover:bg-green-700">
+            <button
+              className="px-4 py-2 font-bold text-white transition-all ease-in-out bg-green-500 rounded hover:bg-green-700"
+              onClick={updateTodo}
+            >
               <AddSvg />
             </button>
             <button
