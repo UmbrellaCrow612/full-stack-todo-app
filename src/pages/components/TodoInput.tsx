@@ -1,18 +1,5 @@
+import { createTodo } from "@/hooks";
 import { useState } from "react";
-import axios, { AxiosResponse } from "axios";
-
-interface Todo {
-  content: string;
-}
-
-async function createTodo(todoData: Todo): Promise<AxiosResponse<Todo>> {
-  try {
-    const response = await axios.post<Todo>("/api/todo/create", todoData);
-    return response;
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || "Failed to create todo");
-  }
-}
 
 export default function TodoInput() {
   const [text, setText] = useState("");
@@ -26,7 +13,7 @@ export default function TodoInput() {
       return;
     }
 
-    const todoData: Todo = {
+    const todoData = {
       content: text,
     };
 
