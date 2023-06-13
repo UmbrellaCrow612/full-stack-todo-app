@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 export default function TodoItem({
@@ -11,6 +12,17 @@ export default function TodoItem({
 }) {
   const [editMode, setEditMode] = useState(false);
   const [editText, setEditText] = useState(text);
+
+   const deleteTodo = async () => {
+     try {
+       await axios.delete(`/api/todo/delete/${id}`);
+       mutate(); // Refresh the todo list after deletion
+     } catch (error) {
+       console.log(error);
+     }
+   };
+
+
   return (
     <>
       {editMode ? (
@@ -49,7 +61,10 @@ export default function TodoItem({
             >
               <EditSvg />
             </button>
-            <button className="px-4 py-2 font-bold text-white transition-all ease-in-out bg-red-500 rounded hover:bg-red-700">
+            <button
+              className="px-4 py-2 font-bold text-white transition-all ease-in-out bg-red-500 rounded hover:bg-red-700"
+              onClick={deleteTodo}
+            >
               <DeleteSvg />
             </button>
           </div>
