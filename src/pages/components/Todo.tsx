@@ -1,14 +1,29 @@
+import axios from "axios";
+import useSWR from "swr";
 import TodoInput from "./TodoInput";
 import TodoItem from "./TodoItem";
 
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
 export default function Todo() {
-  // Todo: Add react query for data fetching and cache and as well as updating ui for changes
+  const { data, error, isLoading, mutate } = useSWR("/api/todo/all", fetcher);
+
   return (
     <>
       <div className="w-[85%] md:max-w-xl border py-10 bg-white rounded-xl border-gray-300 shadow-md px-2 space-y-5">
         <TodoInput />
         <div className="h-[20rem] px-2 py-1 flex flex-col overflow-auto space-y-5">
-          <TodoItem text="Item" id="1" />
+          {isLoading ? (
+            <>Loading</>
+          ) : (
+            <>
+              {data.map((todo: any) => (
+                <>
+                  <TodoItem text={todo.content} id={todo.id} />
+                </>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </>
