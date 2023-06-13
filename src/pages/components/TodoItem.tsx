@@ -1,6 +1,14 @@
 import { useState } from "react";
 
-export default function TodoItem({ text, id }: { text: string; id: string }) {
+export default function TodoItem({
+  text,
+  id,
+  mutate,
+}: {
+  text: string;
+  id: string;
+  mutate: any;
+}) {
   const [editMode, setEditMode] = useState(false);
   const [editText, setEditText] = useState(text);
   return (

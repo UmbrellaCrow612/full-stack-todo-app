@@ -1,7 +1,7 @@
 import { createTodo } from "@/hooks";
 import { useState } from "react";
 
-export default function TodoInput() {
+export default function TodoInput({ mutate }: any) {
   const [text, setText] = useState("");
   const [error, setError] = useState("");
 
@@ -19,6 +19,7 @@ export default function TodoInput() {
 
     try {
       await createTodo(todoData);
+      mutate();
       setText("");
       setError("");
     } catch (error: any) {

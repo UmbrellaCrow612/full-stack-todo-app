@@ -11,7 +11,7 @@ export default function Todo() {
   return (
     <>
       <div className="w-[85%] md:max-w-xl border py-10 bg-white rounded-xl border-gray-300 shadow-md px-2 space-y-5">
-        <TodoInput />
+        <TodoInput mutate={mutate} />
         <div className="h-[20rem] px-2 py-1 flex flex-col overflow-auto space-y-5">
           {isLoading ? (
             <>Loading</>
@@ -19,11 +19,12 @@ export default function Todo() {
             <>
               {data.map((todo: any) => (
                 <>
-                  <TodoItem text={todo.content} id={todo.id} />
+                  <TodoItem text={todo.content} id={todo.id} mutate={mutate} />
                 </>
               ))}
             </>
           )}
+          {error && <>Error</>}
         </div>
       </div>
     </>
