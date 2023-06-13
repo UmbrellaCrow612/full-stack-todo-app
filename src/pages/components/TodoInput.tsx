@@ -3,7 +3,6 @@ import axios, { AxiosResponse } from "axios";
 
 interface Todo {
   content: string;
-  userId: string;
 }
 
 async function createTodo(todoData: Todo): Promise<AxiosResponse<Todo>> {
@@ -29,13 +28,12 @@ export default function TodoInput() {
 
     const todoData: Todo = {
       content: text,
-      userId: "f7bc31c5-f600-4d8a-813a-d47400db7ea6",
     };
 
     try {
       await createTodo(todoData);
-      setText(""); // Clear the input field
-      setError(""); // Clear the error message
+      setText("");
+      setError("");
     } catch (error: any) {
       console.error(error);
       setError(error.message);
